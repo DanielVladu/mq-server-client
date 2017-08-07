@@ -10,6 +10,7 @@ mqd_t mqs, mqc;
 char *server_queue = "/server_queue";
 char client_queue[20];
 
+/*
 void cleanup()
 {
   int rc;
@@ -21,7 +22,7 @@ void cleanup()
 
   printf("\nExiting ");
   exit(1);
-}
+}*/
 
 int main(int argc, char **argv)
 {
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
   struct mq_attr attr;
 
   attr.mq_flags = 0;
-  attr.mq_maxmsg = 100;
+  attr.mq_maxmsg = 10;
   attr.mq_msgsize = MAX_SIZE;
   attr.mq_curmsgs = 0;
 
@@ -40,9 +41,6 @@ int main(int argc, char **argv)
 
   mqs = mq_open(server_queue, O_CREAT | O_RDONLY, 0644, &attr);
   DIE(mqs == (mqd_t)-1, "mq_open");
-
-  signal(SIGINT, cleanup);
-  atexit(cleanup);
 
   printf("Server started %s\n",server_queue);
 
